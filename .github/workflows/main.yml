@@ -1,6 +1,7 @@
 name: demo-workflow
 on:
-  workflow_dispatch:
+  push:
+    branches: [main,deploy]
 jobs:
   job1:
     runs-on: ubuntu-latest
