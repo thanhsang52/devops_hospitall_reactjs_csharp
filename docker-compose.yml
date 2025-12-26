@@ -1,0 +1,7 @@
+version: "3"
+services:
+  build_fe:
+    container_name: cons-react
+    build: ./hopital_FE
+    ports:
+      - "3004:80"
