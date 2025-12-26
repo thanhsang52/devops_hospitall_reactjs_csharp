@@ -30,8 +30,10 @@ jobs:
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{secrets.VPS_HOST}}
-          username: ${{vars.VPS_USER}}
+          username: ${{secrets.VPS_USER}}
           key: ${{secrets.VPS_KEY}}
+          port: 22
+          debug: true
           script: |
             cd /var/www/html/devops_hospitall_reactjs_csharp
             git pull
