@@ -5,22 +5,39 @@ on:
 jobs:
   job1:
     runs-on: ubuntu-latest
+    outputs:
+      data: ${{ steps.step_id.outputs.data_in }}
     steps:
-      - run: |
+      - id: step_id
+        run: |
           echo "hello world"
-          curl https://apistore.cybersoft.edu.vn/api/Product
+          echo "data_in=1" >> $GITHUB_OUTPUT
   job2:
     runs-on: ubuntu-latest
+    outputs:
+      data: ${{ steps.step_id.outputs.data_in }}
     needs: [job1]
     steps:
-      - run: |
-          echo "hello world 2"
+      - id: step_id
+        run: |
+          echo "hello world job 2"
+          echo "data_in=2" >> $GITHUB_OUTPUT
   job3:
     runs-on: ubuntu-latest
-    needs: [job2]
+    needs: [job1,job2]
     steps:
-      - run: |
-          echo "hello world 3"
+      - name: Gửi mail demo
+        if: $((${{ needs.job1.outputs.data }} + ${{ needs.job2.outputs.data }} ))  == 3
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 587
+          username: sangrom2003@gmail.com
+          password: npnqbqffopdmrwng
+          subject: "Đây là tiêu đề"
+          body: "đây là nội dung - ${{needs.job1.outputs.data}} - ${{needs.job2.outputs.data}}"
+          to: sangrom2003@gmail.com
+          from: sangrom2003@gmail.com
 
        
 
