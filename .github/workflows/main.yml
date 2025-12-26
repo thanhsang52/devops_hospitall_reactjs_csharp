@@ -10,11 +10,13 @@ jobs:
           curl https://apistore.cybersoft.edu.vn/api/Product
   job2:
     runs-on: ubuntu-latest
+    needs: [job1]
     steps:
       - run: |
           echo "hello world 2"
   job3:
     runs-on: ubuntu-latest
+    needs: [job2]
     steps:
       - run: |
           echo "hello world 3"
