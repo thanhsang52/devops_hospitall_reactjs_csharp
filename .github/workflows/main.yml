@@ -2,12 +2,22 @@ name: demo-workflow
 on:
   workflow_dispatch:
 jobs:
-  run-demo:
+  job1:
     runs-on: ubuntu-latest
     steps:
       - run: |
           echo "hello world"
           curl https://apistore.cybersoft.edu.vn/api/Product
+  job2:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "hello world 2"
+  job3:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "hello world 3"
 
        
 
