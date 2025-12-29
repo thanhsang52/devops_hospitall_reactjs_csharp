@@ -22,7 +22,7 @@ pipeline {
                     sshUserPrivateKey(credentialsId:'ssh-key', keyFileVariable:'SSH_KEY', usernameVariable:'SSH_USER')   
                 ]){
                     sh """
-                        ssh -o StrictHostKeyChecking=no -i ${SSH_KEY} ${SSH_USER} '
+                        ssh -o StrictHostKeyChecking=no -i ${SSH_KEY} ${SSH_USER}@${SSH_IP} '
                             cd ${DEPLOY_PATH} && git pull
                             docker-compose down
                             docker-compose build
