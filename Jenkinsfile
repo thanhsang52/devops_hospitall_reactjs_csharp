@@ -1,6 +1,9 @@
 pipeline {
     agent any
-
+    environment {
+        SSH_IP = "146.190.108.212"
+        DEPLOY_PATH = "/var/www/html"
+    }
     stages {
         stage('Hello') {
             steps {
@@ -16,9 +19,16 @@ pipeline {
             steps{
                 withCredentials([
                     //usernamePassword(credentialsId:'github-login',usernameVariable:'USER_GIT', passwordVariable:'PASS_GIT'),
-                    sshUserPrivateKey(credentialsId:'ssh-key', keyFileVariable:'TOKEN', usernameVariable:"USER")   
+                    sshUserPrivateKey(credentialsId:'ssh-key', keyFileVariable:'SSH_KEY', usernameVariable:"SSH_USER")   
                 ]){
-                    echo " ${USER} ${TOKEN} "
+                    sh """
+                        ssh -o StrictHostKeyChecking=no -i ${SSH_KEY} ${SSH_USER}@${SSH_IP}
+                        cd ${DEPLOY_PATH}
+                        git pull
+                        docker-compose down
+                        docker-compose up -d --build
+                        
+                    """
                 }      
            }        
        }    
