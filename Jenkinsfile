@@ -19,15 +19,14 @@ pipeline {
             steps{
                 withCredentials([
                     //usernamePassword(credentialsId:'github-login',usernameVariable:'USER_GIT', passwordVariable:'PASS_GIT'),
-                    sshUserPrivateKey(credentialsId:'ssh-key', keyFileVariable:'SSH_KEY', usernameVariable:"SSH_USER")   
+                    sshUserPrivateKey(credentialsId:'ssh-key', keyFileVariable:'SSH_KEY', usernameVariable:'SSH_USER')   
                 ]){
                     sh """
-                        ssh -o StrictHostKeyChecking=no -i ${SSH_KEY} ${SSH_USER}@${SSH_IP}
-                        cd ${DEPLOY_PATH}
-                        git pull
+                        ssh -o StrictHostKeyChecking=no -i ${SSH_KEY} ${SSH_USER}
+                        cd ${DEPLOY_PATH} && git pull
                         docker-compose down
-                        docker-compose up -d --build
-                        
+                        docker-compose build
+                        docker-compose up -d
                     """
                 }      
            }        
