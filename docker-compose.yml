@@ -15,7 +15,7 @@ services:
   # Backend C# API
   backend:
     container_name: hospital-backend
-    build: ./hospital_BE
+    build: ./hospital_BE/Hospital_API  # Đường dẫn đúng đến Dockerfile
     ports:
       - "5000:8080"
     environment:
