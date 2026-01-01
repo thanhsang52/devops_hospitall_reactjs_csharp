@@ -1,7 +1,28 @@
-version: "3"
+version: "3.8"
+
 services:
-  build_fe:
-    container_name: cons-react
+  # Frontend ReactJS
+  frontend:
+    container_name: hospital-frontend
     build: ./hospital_FE
     ports:
       - "3004:80"
+    depends_on:
+      - backend
+    networks:
+      - hospital-network
+
+  # Backend C# API
+  backend:
+    container_name: hospital-backend
+    build: ./hospital_BE
+    ports:
+      - "5000:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    networks:
+      - hospital-network
+
+networks:
+  hospital-network:
+    driver: bridge
